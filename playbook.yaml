@@ -8,4 +8,4 @@
   roles:
     - user
     - sshd
-    # - node-exporter
+    - node-exporter
