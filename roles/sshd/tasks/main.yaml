@@ -1,0 +1,27 @@
+---
+- name: Disable password authentication modules
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#)?\s*UsePAM \w+\s*$'
+    line: 'UsePAM no'
+    state: present
+    validate: 'sshd -tf %s'
+  notify: reload sshd
+
+- name: Disable password authentication
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#)?\s*PasswordAuthentication \w+\s*$'
+    line: 'PasswordAuthentication no'
+    state: present
+    validate: 'sshd -tf %s'
+  notify: reload sshd
+
+- name: Deny root from logging in
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#)?\s*PermitRootLogin \w+\s*$'
+    line: 'PermitRootLogin no'
+    state: present
+    validate: 'sshd -tf %s'
+  notify: reload sshd

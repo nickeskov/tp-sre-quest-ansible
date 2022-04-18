@@ -1,0 +1,11 @@
+---
+- name: "Ansible experiments"
+  become: true
+  hosts: 
+    - test
+    # - infra
+    # - prod
+  roles:
+    - user
+    - sshd
+    # - node-exporter
