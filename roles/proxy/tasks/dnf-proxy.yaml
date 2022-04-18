@@ -1,0 +1,6 @@
+---
+- name: Add proxy to dnf
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/dnf.conf
+    line: "proxy=http://{{ proxy_endpoint }}"
+    state: present

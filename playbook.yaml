@@ -6,6 +6,7 @@
     # - infra
     # - prod
   roles:
-    - user
-    - sshd
-    - node-exporter
+    - proxy
+    # - user
+    # - sshd
+    # - node-exporter
