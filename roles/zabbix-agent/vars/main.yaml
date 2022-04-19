@@ -1,0 +1,5 @@
+zabbix_server_ip: "10.115.23.101"
+zabbix_agent_ip: "0.0.0.0"
+zabbix_agent_port: 10050
+zabbix_host_name: "{{ inventory_hostname }}" # set it in role
+  

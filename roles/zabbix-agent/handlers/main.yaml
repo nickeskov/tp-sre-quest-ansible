@@ -1,0 +1,9 @@
+---
+- name: restart zabbix-agent
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    name: zabbix-agent
+    state: restarted
+  when:
+    - not ansible_check_mode
