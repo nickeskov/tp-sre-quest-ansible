@@ -2,7 +2,7 @@
 - name: Add proxy enviroments for all users
   ansible.builtin.template:
     src: "proxies.sh.j2"
-    dest: "/etc/profile.d/"
+    dest: "/etc/profile.d/proxies.sh"
     owner: root
     group: root
     mode: 0644
