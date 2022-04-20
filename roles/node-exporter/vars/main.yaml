@@ -1,5 +1,4 @@
 _node_exporter_system_user: node-exporter
-# _node_exporter_system_group: node-exporter
 _node_exporter_binary_install_dir: /usr/local/bin
 
 node_exporter_binary_local_dir: ""
