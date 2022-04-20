@@ -1,0 +1,6 @@
+---
+- name: Install bash-completion package rpm
+  ansible.builtin.dnf:
+    update_cache: true
+    name: bash-completion
+    state: present
