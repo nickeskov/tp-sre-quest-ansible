@@ -4,3 +4,9 @@
     update_cache: true
     name: bash-completion
     state: present
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    configfile: "/etc/sysconfig/selinux"
+    state: disabled
+  tags: selinux
