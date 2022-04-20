@@ -6,9 +6,10 @@
     # - infra
     # - prod
   roles:
-    - preflight
+    # - preflight
     # - proxy
     # - user
     # - sshd
     # - node-exporter
     # - zabbix-agent
+    - firewall

@@ -1,0 +1,9 @@
+---
+- name: Run firewall deb
+  include_tasks: deb-iptables.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Run firewall rpm
+  include_tasks: rhel-iptables.yaml
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+ 

@@ -1,0 +1,56 @@
+---
+- name: Flush iptables rules for INPUT chain
+  ansible.builtin.iptables:
+    chain: INPUT
+    flush: true
+  tags: firewall-flush
+
+- name: Allow all INPUT traffic from loopback interface
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    state: present
+    in_interface: lo
+    jump: ACCEPT
+
+- name: Allow all OUTPUT traffic from loopback interface
+  ansible.builtin.iptables:
+    action: append
+    chain: OUTPUT
+    state: present
+    out_interface: lo
+    jump: ACCEPT
+
+- name: Allow input traffic for chosen subnet on node-exporter port
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: tcp
+    source: "{{ source }}"
+    destination_port: "{{ node_exporter_port }}"
+    jump: ACCEPT
+
+- name: Allow input traffic for chosen subnet on zabbix-agent port
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: tcp
+    source: "{{ source }}"
+    destination_port: "{{ zabbix_agent_port }}"
+    jump: ACCEPT
+
+- name: Reject all INPUT traffic from other networks on node-exporter port
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ node_exporter_port }}"
+    reject_with: icmp-port-unreachable
+
+- name: Reject all INPUT traffic from other networks on zabbix-agent port
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ zabbix_agent_port }}"
+    reject_with: icmp-port-unreachable

@@ -1,0 +1,24 @@
+---
+# - name: Disable firewalld
+#   ansible.builtin.service:
+#     name: firewalld
+#     enabled: false
+#     state: stopped
+
+- name: Install iptables package rpm
+  ansible.builtin.dnf:
+    update_cache: true
+    name: iptables
+    state: present
+
+- name: Save old iptables rules
+  community.general.iptables_state:
+    path: "/etc/sysconfig/iptables"
+    state: saved
+
+- import_tasks: iptables-common.yaml
+
+- name: Save new iptables rules 
+  community.general.iptables_state:
+    path: "/etc/sysconfig/iptables"
+    state: saved
