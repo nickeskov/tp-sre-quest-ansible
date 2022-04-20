@@ -5,8 +5,8 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=node-exporter
-Group=node-exporter
+User={{ _node_exporter_system_user }}
+Group={{ _node_exporter_system_user }}
 # add this flag to activate systemd "--collector.systemd"
 ExecStart=/usr/local/bin/node_exporter \
             --web.listen-address=":9100"

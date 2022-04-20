@@ -1,5 +1,12 @@
 ---
-- name: Create the node_exporter user
+- name: Check if node exporter system user exists
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ _node_exporter_system_user }}"
+    fail_key: false
+  register: _node_exporter_system_user_getent_info
+
+- name: Create the node_exporter user if it doesn't exist
   ansible.builtin.user:
     name: "{{ _node_exporter_system_user }}"
     password: "!"
@@ -8,7 +15,7 @@
     create_home: false
     home: /
     state: present
-  when: _node_exporter_system_user != "root"
+  when: _node_exporter_system_user_getent_info.ansible_facts.getent_passwd[_node_exporter_system_user] == None
 
 - block:
     - name: Download node_exporter binary to local folder
@@ -57,9 +64,9 @@
   notify: restart node-exporter
 
 - name: Copy the node_exporter systemd service file
-  ansible.builtin.copy:
-    src: node-exporter.service
-    dest: /lib/systemd/system/node-exporter.service
+  ansible.builtin.template:
+    src: "node-exporter.service.j2"
+    dest: "/lib/systemd/system/node-exporter.service"
     owner: root
     group: root
     mode: 0644
