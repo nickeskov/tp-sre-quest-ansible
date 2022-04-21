@@ -1,0 +1,9 @@
+---
+- name: Install rpm nginx
+  ansible.builtin.dnf:
+    update_cache: true
+    name: nginx
+    state: present
+  notify: 
+    - start nginx
+    - reload nginx

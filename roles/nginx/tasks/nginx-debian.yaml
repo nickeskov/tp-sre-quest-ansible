@@ -1,0 +1,9 @@
+---
+- name: Install deb nginx
+  ansible.builtin.apt:
+    update_cache: true
+    name: nginx
+    state: present
+  notify: 
+    - start nginx
+    - reload nginx
