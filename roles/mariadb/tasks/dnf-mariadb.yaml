@@ -1,0 +1,35 @@
+---
+- name: Install MariaDB rpm
+  ansible.builtin.dnf:
+    update_cache: true
+    name: mariadb-server
+    state: present
+
+- name: Add Python3 MardiaDB support rpm
+  ansible.builtin.dnf:
+    update_cache: true
+    name: python3-PyMySQL
+    state: present
+
+- name: Start MardiaDB
+  ansible.builtin.service:
+    enabled: true
+    name: mariadb
+    state: started
+  when:
+    - not ansible_check_mode
+
+- name: Set MardiaDB bind-address
+  ansible.builtin.lineinfile:
+    path: "/etc/my.cnf.d/mariadb-server.cnf"
+    regexp: '^(#)?\s*bind-address\s*='
+    line: "bind-address={{ mysql_bind_address }}"
+    state: present
+  notify: 
+    - restart mariadb
+
+- import_tasks: mariadb-common.yaml
+  vars:
+    __mysql_unix_sock: "/var/lib/mysql/mysql.sock"
+  when: 
+    - not ansible_check_mode

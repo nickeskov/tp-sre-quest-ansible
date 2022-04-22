@@ -1,0 +1,4 @@
+mysql_root_password: "326sfGPs53534fsdf80dJHG5DdfgT"
+mysql_unix_sock: "{{ __mysql_unix_sock }}"
+mysql_root_config_file: "/root/.my.conf"
+mysql_bind_address: "127.0.0.1"

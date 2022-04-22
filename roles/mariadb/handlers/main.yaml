@@ -1,0 +1,8 @@
+---
+- name: restart mariadb
+  ansible.builtin.service:
+    enabled: true
+    name: mariadb
+    state: restarted
+  when: 
+  - not ansible_check_mode

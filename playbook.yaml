@@ -14,7 +14,8 @@
     # - zabbix-agent
     # - firewall
     # - nginx
-    - php-fpm
+    # - php-fpm
+    - mariadb
   # environment:
   #   http_proxy: http://10.115.23.1:8080
   #   https_proxy: http://10.115.23.1:8080
