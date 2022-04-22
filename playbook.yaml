@@ -2,17 +2,18 @@
 - name: "Ansible experiments"
   become: true
   hosts: 
-    # - test
+    - test
     # - infra
-    - prod
+    # - prod
   roles:
     # - preflight
     # - proxy
     # - user
     # - sshd
-    - node-exporter
+    # - node-exporter
     # - zabbix-agent
     # - firewall
-  environment:
-    http_proxy: http://10.115.23.1:8080
-    https_proxy: http://10.115.23.1:8080
+    - nginx
+  # environment:
+  #   http_proxy: http://10.115.23.1:8080
+  #   https_proxy: http://10.115.23.1:8080

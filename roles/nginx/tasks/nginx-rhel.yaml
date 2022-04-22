@@ -6,4 +6,5 @@
     state: present
   notify: 
     - start nginx
-    - reload nginx
+
+- import_tasks: nginx-common.yaml

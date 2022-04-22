@@ -1,0 +1,37 @@
+---
+- name: Create '/etc/nginx/sites-available/'
+  ansible.builtin.file:
+    state: directory
+    path: "/etc/nginx/sites-available"
+  
+- name: Create '/etc/nginx/sites-enabled/'
+  ansible.builtin.file:
+    state: directory
+    path: "/etc/nginx/sites-enabled/"
+
+- name: Set nginx.conf
+  ansible.builtin.template:
+    src: "nginx.conf.j2"
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload nginx
+
+- name: Set default server config
+  ansible.builtin.template:
+    src: "default.j2"
+    dest: "/etc/nginx/sites-available/default"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload nginx
+
+- name: Enable default server
+  ansible.builtin.file:
+    state: link
+    src: "/etc/nginx/sites-available/default"
+    path: "/etc/nginx/sites-enabled/default"
+  notify: reload nginx
+  when: not ansible_check_mode
+ 

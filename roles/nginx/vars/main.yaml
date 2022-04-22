@@ -1,11 +1,10 @@
 ---
 nginx:
-  user: # must be set
+  user: "{{ __nginx_user }}"
   worker_connections: 1024
   http:
     types_hash_max_size: 2048
     client_max_body_size: "20M"
     server_tokens: "off"
     default_server:
-      root: # must be set
-      
+      root: "{{ __nginx_http_default_server_root }}"

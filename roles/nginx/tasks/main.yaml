@@ -1,6 +1,12 @@
 ---
-- import_tasks: nginx-rhel.yaml
+- include_tasks: nginx-rhel.yaml
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+  vars:
+    __nginx_user: "nginx"
+    __nginx_http_default_server_root: "/usr/share/nginx/html"
 
-- import_tasks: nginx-debian.yaml
+- include_tasks: nginx-debian.yaml
   when: ansible_distribution == "Ubuntu"
+  vars:
+    __nginx_user: "www-data"
+    __nginx_http_default_server_root: "/var/www/html"
