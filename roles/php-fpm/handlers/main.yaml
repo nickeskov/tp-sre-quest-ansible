@@ -1,0 +1,38 @@
+---
+- name: start php-fpm
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    name: php-fpm
+    state: started
+  when:
+    - not ansible_check_mode
+
+- name: reload php-fpm
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    name: php-fpm
+    state: reloaded
+  when:
+    - not ansible_check_mode
+
+###########################
+
+- name: start php7.4-fpm
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    name: php7.4-fpm
+    state: started
+  when:
+    - not ansible_check_mode
+
+- name: reload php7.4-fpm
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    name: php7.4-fpm
+    state: reloaded
+  when:
+    - not ansible_check_mode

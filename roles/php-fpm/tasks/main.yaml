@@ -1,0 +1,6 @@
+---
+- include_tasks: dnf-php-fpm.yaml
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+
+- include_tasks: apt-php-fpm.yaml
+  when: ansible_distribution == "Ubuntu"
