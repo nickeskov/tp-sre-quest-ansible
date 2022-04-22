@@ -27,6 +27,8 @@
     state: present
   notify: 
     - restart mariadb
+  when: 
+    - not ansible_check_mode
 
 - import_tasks: mariadb-common.yaml
   vars:
