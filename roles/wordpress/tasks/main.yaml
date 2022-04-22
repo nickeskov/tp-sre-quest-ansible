@@ -1,0 +1,14 @@
+---
+- include_tasks: wordpress.yaml
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+  vars:
+    __wordpress_source_user: "nginx"
+
+- include_tasks: wordpress.yaml
+  when: ansible_os_family == "Debian"
+  vars:
+    __wordpress_source_user: "www-data"
+    
+- import_tasks: mariadb.yaml
+
+- import_tasks: nginx.yaml

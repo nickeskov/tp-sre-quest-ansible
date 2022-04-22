@@ -1,0 +1,28 @@
+wordpress_domain_name: "sth23.srequest.ru"
+wordpress_download_url: "https://wordpress.org/latest.tar.gz"
+wordpress_archive_name: "latest.tar.gz"
+wordpress_source_dir: "/var/www/wordpress"
+wordpress_source_user: "{{ __wordpress_source_user }}"
+
+wordpress_credentials_db_name: "wordpress"
+wordpress_credentials_db_user: "wpuser"
+wordpress_credentials_db_password: "32asdJHGlg@53%4fsdfgT"
+
+wordpress_credentials_auth_key: 'Sux2~+v63>$VV--JqxZjI7wSD;gZKGYR#N7xCY&~Zv]d2[Vwb-H-xZ#SZI1o ,>_'
+wordpress_credentials_secure_auth_key: '_v6LSSe|F[iwP%TJ8}~xeTMC>cUall;-UqJ.#J(y~F)R<{dcAkOCW4<qcj4Ez fB'
+wordpress_credentials_logged_in_key: 'gEn5S#7OI&s_+0TR4|>iP/:Q`|Ltlf$WQ-7ZVn6}}0w$X2.zM-F.}@8F!IAB~+Nj'
+wordpress_credentials_nonce_key: 'fB01?ir.`:XpV9Gxmm2D}cO+0]pN|oK+xVj8(~-xD?K+ih]Ry4-{1oNBgO:m6,Kz'
+
+wordpress_credentials_auth_salt: ')?4~Yj1C4CFNgMD1p:~!eo]b#3yvlk(F#Z>xHh|slK<DNOy8kT)=@,1P9:/]WFwr'
+wordpress_credentials_secure_auth_salt: 'K`mK0+;aU|*9rq||Sh2q6,{|CnnGBXxF]s&PwhOe-Aa w0*/;@.Bgxeyuf2M62ZR'
+wordpress_credentials_logged_in_salt: '6,|Te&= XCL%!=MA?]}{PJ(T6%x6[KvOtkY0)/Q$C{z+<W?DJSeMqtdN{d)9 *|A'
+wordpress_credentials_nonce_salt: ':ytxGKy_yzOdth#r/Q5J|ilrO{8m^I5v0++:7=in5-^@/eL}A+P8kk,I(BV53r|+'
+
+#############################################################
+
+mysql_root_password: "326sfGPs53534fsdf80dJHG5DdfgT"
+
+############################################################
+
+php_fpm_listen_ip: 127.0.0.1
+php_fpm_listen_port: 9000

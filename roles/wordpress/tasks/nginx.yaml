@@ -1,0 +1,30 @@
+---
+- name: Check /etc/nginx/conf.d dir for unnecessary php-fpm.conf
+  ansible.builtin.stat:
+    path: "/etc/nginx/conf.d/php-fpm.conf"
+  register: __stat_result
+
+- name: Remove /etc/nginx/conf.d/php-fpm.conf if exists
+  ansible.builtin.file:
+    path: "/etc/nginx/conf.d/php-fpm.conf"
+    state: absent
+  when: __stat_result.stat.exists
+  notify: reload nginx
+
+- name: Set wordpress server config
+  ansible.builtin.template:
+    src: "wordpress.j2"
+    dest: "/etc/nginx/sites-available/wordpress"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload nginx
+
+- name: Enable wordpress server
+  ansible.builtin.file:
+    state: link
+    src: "/etc/nginx/sites-available/wordpress"
+    path: "/etc/nginx/sites-enabled/wordpress"
+  notify: reload nginx
+  when: not ansible_check_mode
+ 

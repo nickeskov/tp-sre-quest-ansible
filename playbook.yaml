@@ -6,7 +6,7 @@
     # - infra
     # - prod
   roles:
-    # - preflight
+    - preflight
     # - proxy
     # - user
     # - sshd
@@ -15,7 +15,8 @@
     # - firewall
     # - nginx
     # - php-fpm
-    - mariadb
+    # - mariadb
+    - wordpress
   # environment:
   #   http_proxy: http://10.115.23.1:8080
   #   https_proxy: http://10.115.23.1:8080

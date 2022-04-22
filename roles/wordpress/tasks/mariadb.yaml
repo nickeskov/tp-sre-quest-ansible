@@ -1,0 +1,20 @@
+---
+- name: Creates MariaDB database for WordPress
+  community.mysql.mysql_db:
+    name: "{{ wordpress_credentials_db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  when: 
+    - not ansible_check_mode
+
+- name: Create MariaDB user for WordPress
+  community.mysql.mysql_user:
+    name: "{{ wordpress_credentials_db_user }}"
+    password: "{{ wordpress_credentials_db_password }}"
+    priv: "{{ wordpress_credentials_db_name }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  when: 
+    - not ansible_check_mode
