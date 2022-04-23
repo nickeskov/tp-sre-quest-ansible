@@ -3,8 +3,8 @@ sre---almalinux ansible_host=sre---almalinux ansible_user=nickeskov ansible_conn
 sre---ubuntu-linux ansible_host=sre---ubuntu-linux ansible_user=nickeskov ansible_connection=ssh
 
 [infra]
-sre-infra1 ansible_host=10.115.23.101 ansible_user=sre-quest ansible_connection=ssh
+sre-infra1 ansible_host=10.115.23.101 ansible_user=nickeskov ansible_connection=ssh
 
 [prod]
-sre-prod2 ansible_host=10.115.23.102 ansible_user=sre-quest ansible_connection=ssh
-sre-prod3 ansible_host=10.115.23.103 ansible_user=sre-quest ansible_connection=ssh
+sre-prod2 ansible_host=10.115.23.102 ansible_user=nickeskov ansible_connection=ssh
+sre-prod3 ansible_host=10.115.23.103 ansible_user=nickeskov ansible_connection=ssh
