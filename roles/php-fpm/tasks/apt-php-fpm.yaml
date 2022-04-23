@@ -39,7 +39,7 @@
     validate: 'php-fpm7.4 -ty %s'
   notify:
     - reload php7.4-fpm
-  when: 
+  when:
    - not ansible_check_mode
  
 - name: Change listen.allowed_clients php-fpm 7.4 to any address
@@ -51,7 +51,7 @@
     validate: 'php-fpm7.4 -ty %s'
   notify:
     - reload php7.4-fpm
-  when: 
+  when:
    - not ansible_check_mode
 
 - name: Allow php-fpm 7.4 access to nginx directories
@@ -66,6 +66,8 @@
   loop:
     - {regexp: '^user\s*=.*$', line: "user = {{ php_fpm_user }}"}
     - {regexp: '^group\s*=.*$', line: "group = {{ php_fpm_group }}"}
+  when:
+   - not ansible_check_mode
 
 - name: Disable 'cgi.fix_pathinfo'
   ansible.builtin.lineinfile:
@@ -74,6 +76,8 @@
     line: "cgi.fix_pathinfo = 0"
   notify:
   - reload php-fpm
+  when:
+   - not ansible_check_mode
 
 # - name: Set default (disabled) php-fpm 7.4 access.log value
 #   ansible.builtin.lineinfile:
@@ -84,3 +88,5 @@
 #     validate: 'php7.4-fpm -ty %s'
 #   notify:
 #     - reload php7.4-fpm
+#   when:
+#    - not ansible_check_mode
