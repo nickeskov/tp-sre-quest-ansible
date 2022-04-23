@@ -24,11 +24,19 @@
     src: "/tmp/{{ wordpress_archive_name }}"
     dest: "{{ wordpress_source_dir }}"
     creates: "{{ wordpress_source_dir }}/index.php"
-    owner: "{{ wordpress_source_user }}"
-    group: "{{ wordpress_source_user }}"
+    owner: root
+    group: root
     extra_opts:
       - --strip-components=1
   when: not ansible_check_mode
+
+- name: Set right permissions for wp-config-sample.ph
+  ansible.builtin.file:
+    state: file
+    owner: "{{ wordpress_source_user }}"
+    group: "{{ wordpress_source_user }}"
+    mode: 0400
+    path: "{{ wordpress_source_dir }}/wp-config-sample.php"
 
 - name: Set wordpress credentials
   ansible.builtin.lineinfile:
@@ -36,23 +44,28 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
-  loop: 
-    - {regexp: "^define.+?'DB_NAME',",          line: "define( 'DB_NAME', '{{ wordpress_credentials_db_name }}' )"}
-    - {regexp: "^define.+?'DB_USER',",          line: "define( 'DB_USER', '{{ wordpress_credentials_db_user }}' )"}
-    - {regexp: "^define.+?'DB_PASSWORD',",      line: "define( 'DB_PASSWORD', '{{ wordpress_credentials_db_password }}' )"}
-    - {regexp: "^define.+?'AUTH_KEY',",         line: "define( 'AUTH_KEY', '{{ wordpress_credentials_auth_key }}' )"}
-    - {regexp: "^define.+?'SECURE_AUTH_KEY',",  line: "define( 'SECURE_AUTH_KEY', '{{ wordpress_credentials_secure_auth_key }}' )"}
-    - {regexp: "^define.+?'LOGGED_IN_KEY',",    line: "define( 'LOGGED_IN_KEY', '{{ wordpress_credentials_logged_in_key }}' )"}
-    - {regexp: "^define.+?'NONCE_KEY',",        line: "define( 'NONCE_KEY', '{{ wordpress_credentials_nonce_key }}' )"}
-    - {regexp: "^define.+?'AUTH_SALT',",        line: "define( 'AUTH_SALT', '{{ wordpress_credentials_auth_salt }}' )"}
-    - {regexp: "^define.+?'SECURE_AUTH_SALT',", line: "define( 'SECURE_AUTH_SALT', '{{ wordpress_credentials_secure_auth_salt }}' )"}
-    - {regexp: "^define.+?'LOGGED_IN_SALT',",   line: "define( 'LOGGED_IN_SALT', '{{ wordpress_credentials_logged_in_salt }}' )"}
-    - {regexp: "^define.+?'NONCE_SALT',",       line: "define( 'NONCE_SALT', '{{ wordpress_credentials_nonce_salt }}' )"}
+  loop:
+    - {regexp: "^define.+?'DB_NAME',",          line: "define( 'DB_NAME', '{{ wordpress_credentials_db_name }}' );"}
+    - {regexp: "^define.+?'DB_USER',",          line: "define( 'DB_USER', '{{ wordpress_credentials_db_user }}' );"}
+    - {regexp: "^define.+?'DB_PASSWORD',",      line: "define( 'DB_PASSWORD', '{{ wordpress_credentials_db_password }}' );"}
+    - {regexp: "^define.+?'DB_HOST',",          line: "define( 'DB_HOST', '{{ wordpress_credentials_db_host }}' );"}
+    - {regexp: "^define.+?'AUTH_KEY',",         line: "define( 'AUTH_KEY', '{{ wordpress_credentials_auth_key }}' );"}
+    - {regexp: "^define.+?'SECURE_AUTH_KEY',",  line: "define( 'SECURE_AUTH_KEY', '{{ wordpress_credentials_secure_auth_key }}' );"}
+    - {regexp: "^define.+?'LOGGED_IN_KEY',",    line: "define( 'LOGGED_IN_KEY', '{{ wordpress_credentials_logged_in_key }}' );"}
+    - {regexp: "^define.+?'NONCE_KEY',",        line: "define( 'NONCE_KEY', '{{ wordpress_credentials_nonce_key }}' );"}
+    - {regexp: "^define.+?'AUTH_SALT',",        line: "define( 'AUTH_SALT', '{{ wordpress_credentials_auth_salt }}' );"}
+    - {regexp: "^define.+?'SECURE_AUTH_SALT',", line: "define( 'SECURE_AUTH_SALT', '{{ wordpress_credentials_secure_auth_salt }}' );"}
+    - {regexp: "^define.+?'LOGGED_IN_SALT',",   line: "define( 'LOGGED_IN_SALT', '{{ wordpress_credentials_logged_in_salt }}' );"}
+    - {regexp: "^define.+?'NONCE_SALT',",       line: "define( 'NONCE_SALT', '{{ wordpress_credentials_nonce_salt }}' );"}
   when: not ansible_check_mode
+  no_log: true
 
 - name: Copy wordpress config file
   ansible.builtin.copy:
     remote_src: true
     src: "{{ wordpress_source_dir }}/wp-config-sample.php"
     dest: "{{ wordpress_source_dir }}/wp-config.php"
+    owner: "{{ wordpress_source_user }}"
+    group: "{{ wordpress_source_user }}"
+    mode: 0400
   when: not ansible_check_mode

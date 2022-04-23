@@ -7,6 +7,7 @@ wordpress_source_user: "{{ __wordpress_source_user }}"
 wordpress_credentials_db_name: "wordpress"
 wordpress_credentials_db_user: "wpuser"
 wordpress_credentials_db_password: "32asdJHGlg@53%4fsdfgT"
+wordpress_credentials_db_host: "localhost"
 
 wordpress_credentials_auth_key: 'Sux2~+v63>$VV--JqxZjI7wSD;gZKGYR#N7xCY&~Zv]d2[Vwb-H-xZ#SZI1o ,>_'
 wordpress_credentials_secure_auth_key: '_v6LSSe|F[iwP%TJ8}~xeTMC>cUall;-UqJ.#J(y~F)R<{dcAkOCW4<qcj4Ez fB'
