@@ -24,7 +24,7 @@
       - php-common
       - php-cli
     state: present
-  notify: 
+  notify:
     - start php-fpm
 
 - name: Instlal additional php-fpm 7.4 components from remi8 rpm repo
@@ -47,7 +47,7 @@
       - php-opcache
       - php-readline
     state: present
-  notify: 
+  notify:
     - reload php-fpm
 
 - name: Change listen php-fpm 7.4 endpoint to selected ip:port
@@ -57,19 +57,50 @@
     line: "listen = {{ php_fpm_listen_ip }}:{{ php_fpm_listen_port }}"
     state: present
     validate: 'php-fpm -ty %s'
-  notify: 
+  notify:
     - reload php-fpm
   when: 
    - not ansible_check_mode
 
-- name: Change listen.allowed_clients php-fpm 7.4 to selected
+- name: Change listen.allowed_clients php-fpm 7.4 to any
   ansible.builtin.lineinfile:
     dest: "/etc/php-fpm.d/www.conf"
     regexp: '^(;)?\s*listen.allowed_clients ='
-    line: "listen.allowed_clients = {{ php_fpm_listen_allowed_clients }}"
+    line: ";listen.allowed_clients ="
     state: present
     validate: 'php-fpm -ty %s'
-  notify: 
+  notify:
     - reload php-fpm
   when: 
    - not ansible_check_mode
+
+- name: Allow php-fpm 7.4 access to nginx directories
+  ansible.builtin.lineinfile:
+    dest: "/etc/php-fpm.d/www.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: 'php-fpm -ty %s'
+  notify:
+    - reload php-fpm
+  loop:
+    - {regexp: '^user\s*=.*$', line: "user = {{ php_fpm_user }}"}
+    - {regexp: '^group\s*=.*$', line: "group = {{ php_fpm_group }}"}
+
+- name: Disable 'cgi.fix_pathinfo'
+  ansible.builtin.lineinfile:
+    dest: "/etc/php.ini"
+    regex: ';\s*cgi.fix_pathinfo\s*='
+    line: "gi.fix_pathinfo = 0"
+  notify:
+  - reload php-fpm
+
+# - name: Enable php-fpm 7.4 access log
+#   ansible.builtin.lineinfile:
+#     dest: "/etc/php-fpm.d/www.conf"
+#     regexp: '^(;)?\s*access.log\s*=.*$'
+#     line: ";access.log = /var/log/php-fpm/$pool.access.log"
+#     state: present
+#     validate: 'php-fpm -ty %s'
+#   notify:
+#     - reload php-fpm

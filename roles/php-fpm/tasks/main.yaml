@@ -1,6 +1,12 @@
 ---
 - include_tasks: dnf-php-fpm.yaml
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+  vars:
+    __php_fpm_user: "nginx"
+    __php_fpm_group: "nginx"
 
 - include_tasks: apt-php-fpm.yaml
   when: ansible_distribution == "Ubuntu"
+  vars:
+    __php_fpm_user: "www-data"
+    __php_fpm_group: "www-data"

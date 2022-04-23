@@ -7,7 +7,7 @@
       - php7.4-common
       - php7.4-cli
     state: present
-  notify: 
+  notify:
     - start php7.4-fpm
 
 - name: Instlal additional php-fpm 7.4 components deb
@@ -27,7 +27,7 @@
       - php7.4-snmp
       - php7.4-soap
     state: present
-  notify: 
+  notify:
     - reload php7.4-fpm
 
 - name: Change listen php-fpm 7.4 endpoint to selected ip:port
@@ -37,19 +37,50 @@
     line: "listen = {{ php_fpm_listen_ip }}:{{ php_fpm_listen_port }}"
     state: present
     validate: 'php-fpm7.4 -ty %s'
-  notify: 
+  notify:
     - reload php7.4-fpm
   when: 
    - not ansible_check_mode
  
-- name: Change listen.allowed_clients php-fpm 7.4 to selected
+- name: Change listen.allowed_clients php-fpm 7.4 to any address
   ansible.builtin.lineinfile:
     dest: "/etc/php/7.4/fpm/pool.d/www.conf"
     regexp: '^(;)?\s*listen.allowed_clients ='
-    line: "listen.allowed_clients = {{ php_fpm_listen_allowed_clients }}"
+    line: ";listen.allowed_clients ="
     state: present
     validate: 'php-fpm7.4 -ty %s'
-  notify: 
+  notify:
     - reload php7.4-fpm
   when: 
    - not ansible_check_mode
+
+- name: Allow php-fpm 7.4 access to nginx directories
+  ansible.builtin.lineinfile:
+    dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: 'php7.4-fpm -ty %s'
+  notify:
+    - reload php7.4-fpm
+  loop:
+    - {regexp: '^user\s*=.*$', line: "user = {{ php_fpm_user }}"}
+    - {regexp: '^group\s*=.*$', line: "group = {{ php_fpm_group }}"}
+
+- name: Disable 'cgi.fix_pathinfo'
+  ansible.builtin.lineinfile:
+    dest: "/etc/php/7.4/fpm/php.in"
+    regex: ';\s*cgi.fix_pathinfo\s*='
+    line: "cgi.fix_pathinfo = 0"
+  notify:
+  - reload php-fpm
+
+# - name: Set default (disabled) php-fpm 7.4 access.log value
+#   ansible.builtin.lineinfile:
+#     dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+#     regexp: '^(;)?\s*access.log\s*=.*$'
+#     line: ";access.log = /var/log/php7.4-fpm.$pool.access.log"
+#     state: present
+#     validate: 'php7.4-fpm -ty %s'
+#   notify:
+#     - reload php7.4-fpm
