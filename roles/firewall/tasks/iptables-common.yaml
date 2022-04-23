@@ -1,7 +1,6 @@
 ---
 - name: Flush iptables rules for INPUT chain
   ansible.builtin.iptables:
-    chain: INPUT
     flush: true
   tags: firewall-flush
 
