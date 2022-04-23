@@ -11,7 +11,7 @@
   ansible.builtin.get_url:
     url: "{{ wordpress_download_url }}"
     dest: "/tmp/{{ wordpress_archive_name }}"
-    mode: 0644
+    mode: 0666
   register: __download_archive
   until: __download_archive is succeeded
   retries: 5

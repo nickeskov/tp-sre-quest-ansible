@@ -1,6 +1,6 @@
 wordpress_domain_name: "sth23.srequest.ru"
 wordpress_download_url: "https://wordpress.org/latest.tar.gz"
-wordpress_archive_name: "latest.tar.gz"
+wordpress_archive_name: "wordpress-latest.tar.gz"
 wordpress_source_dir: "/var/www/wordpress"
 wordpress_source_user: "{{ __wordpress_source_user }}"
 
