@@ -71,11 +71,11 @@
 
 - name: Disable 'cgi.fix_pathinfo'
   ansible.builtin.lineinfile:
-    dest: "/etc/php/7.4/fpm/php.in"
+    dest: "/etc/php/7.4/fpm/php.ini"
     regex: ';\s*cgi.fix_pathinfo\s*='
     line: "cgi.fix_pathinfo = 0"
   notify:
-  - reload php-fpm
+  - reload php7.4-fpm
   when:
    - not ansible_check_mode
 
